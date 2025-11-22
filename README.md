@@ -185,3 +185,6 @@ Email: [Your email]
 
 ## Test 
 1. test update.
+
+## update 
+1.更新 myHashInt.

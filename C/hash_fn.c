@@ -17,7 +17,10 @@
 
 int myHashInt(int key, int m) {
     // TODO: replace with your own design
-    return key % m;  // division method example
+    if (m <= 0) return -1;  // error handling
+    int hash = key % m;  // division method example
+    if (hash < 0) hash += m; // handle negative keys
+    return hash;
 }
 
 int myHashString(const char* str, int m) {

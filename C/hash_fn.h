@@ -8,6 +8,7 @@
 
    Development History:
     - 2025/11/17: Initial implementation
+    - 2025/11/22: Added full documentation for myHashInt
 
    Developer: Yu-Feng Huang <yfhuang@saturn.yzu.edu.tw>
  */

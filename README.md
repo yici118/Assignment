@@ -177,5 +177,11 @@ Email: [Your email]
 2. Table size significantly impacts the uniformity of the hash distribution, with prime sizes performing better.
 3. The design using a prime table size and a linear transformation formula produced the most uniform index sequence.
 
-## Test
+## finish first update 
+1.down all.
+2.update C/hash_fn.c、C/hash_fn.h、C/main.c
+  CXX/hash_fn.cpp、CXX/hash_fn.hpp、CXX/main.cpp
+  Makefile、README.md、VSCode.md .
+
+## Test 
 1. test update.

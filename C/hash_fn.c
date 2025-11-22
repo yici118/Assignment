@@ -35,8 +35,31 @@ int myHashInt(int key, int m) {
     return hash;
 }
 
+/**
+ * @brief Compute a hash value for a string key.
+ *
+ * This function computes a hash index for a string by iterating
+ * through each character and accumulating a hash value. The current
+ * implementation uses a simple multiplier-based accumulation.
+ *
+ * @param str The input string to hash. Must not be NULL.
+ * @param m   The table size (must be > 0).
+ * @return The hash index on success, or -1 on invalid input.
+ */
+
 int myHashString(const char* str, int m) {
     unsigned long hash = 0;
-    // TODO: replace with your own design
-    return (int)(hash % m); // basic division method
+    if (str == NULL || m <= 0) {
+        // invalid input
+        return -1;
+    }
+
+    unsigned long hash = 0;
+    const unsigned long base = 31;   // simple multiplier
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        hash = hash * base + (unsigned long)str[i];
+    }
+
+    return (int)(hash % m);
 }

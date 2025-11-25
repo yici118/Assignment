@@ -13,14 +13,39 @@
    Developer: Yu-Feng Huang <yfhuang@saturn.yzu.edu.tw>
  */
 #include "hash_fn.hpp"
+#include <cstddef>
+
+/**
+ * @brief Compute custom integer hash using multiplication and modulo.
+ *
+ * Uses a prime multiplier to achieve better distribution.
+ *
+ * @param key The integer key.
+ * @param m   Table size (must be > 0)
+ * @return Hash index [0, m-1], or -1 if input is invalid.
+ */
 
 int myHashInt(int key, int m) {
-    // TODO: replace with your own design
-    return key % m;  // basic division method
+    if (m <= 0) {
+        return -1;
+    }
+
+    const unsigned int knuth = 2654435761U;
+    unsigned int ukey = static_cast<unsigned int>(key);
+    unsigned int hash = (ukey * knuth) % static_cast<unsigned int>(m);
+
+    return static_cast<int>(hash);
 }
 
 int myHashString(const std::string& str, int m) {
-    unsigned long hash = 0;
-    // TODO: replace with your own design
-    return static_cast<int>(hash % m);  // basic division method
+    if (m <= 0) {
+        return -1;
+    }
+
+    unsigned long hash = 5381UL;
+    for (unsigned char c : str) {
+        hash = ((hash << 5) + hash) + static_cast<unsigned long>(c); /* hash * 33 + c */
+    }
+
+    return static_cast<int>(hash % static_cast<unsigned long>(m));
 }

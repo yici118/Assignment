@@ -4,23 +4,43 @@ This assignment focuses on the design and observation of hash functions using C/
 Students are expected to implement and analyze the behavior of hash functions, 
 evaluate their efficiency, and understand their applications in computer science.
 
-Developer: [Your Name]  
-Email: [Your email]  
+Developer: 黃以慈 
+Email: cat940905@gmail.com
 
 ## My Hash Function
 ### Integer Keys 
 - Formula / pseudocode:
-  ```text
-  [Your implementation here]
-  ```
-- Rationale: [Explain your design choices and how they minimize collisions.]
+  hash = key mod m
+if hash < 0:
+    hash = hash + m
+return hash
+  int myHashInt(int key, int m) {
+    if (m <= 0) return -1;       // invalid table size
+    int hash = key % m;           // division method
+    if (hash < 0) hash += m;      // handle negative keys
+    return hash;
+}
+- Rationale: 使用取模 (mod) 方法將整數 key 映射到 [0, m-1] 範圍。處理負數 key 以避免出現負 index。快速對質數table size 分布均勻，碰撞率低。
+
 
 ### Non-integer Keys
 - Formula / pseudocode:
-  ```text
-  [Your implementation here]
+  ```hash = 0
+p = 31
+for each character c in str:
+    hash = hash * p + ASCII(c)
+return (hash mod m + m) mod m
+  int myHashString(const char* str, int m) {
+    if (m <= 0) return -1;      // invalid table size
+    unsigned long hash = 0;
+    int p = 31;                  // polynomial rolling base
+    for (int i = 0; str[i] != '\0'; i++) {
+        hash = hash * p + (unsigned char)str[i];
+    }
+    return (int)((hash % m + m) % m);
+}
   ```
-- Rationale: [Explain your approach and its effectiveness for non-integer keys.]
+- Rationale: 採用 Polynomial Rolling Hash 將字串映射成整數，再取模 m，p = 31 適合英文字母，可減少碰撞，能處理任意長度字串，順序不同字串產生不同 hash 值，配合質數 table size m，分布均勻，碰撞率低。
 
 ## Experimental Setup
 - Table sizes tested (m): 10, 11, 37
@@ -188,3 +208,4 @@ Email: [Your email]
 
 ## update 
 1.更新 myHashInt.
+2.更新 myHashString.

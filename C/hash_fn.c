@@ -17,22 +17,23 @@
 #include "hash_fn.h"
 
 /**
- * This version includes:
- *   - error handling for invalid m (m <= 0)
- *   - normalization for negative keys
-*/
-
+ * @brief Compute custom integer hash using multiplication and modulo.
+ *
+ * This hash function uses a simple multiplication method with a prime
+ * multiplier to improve uniformity of key distribution.
+ *
+ * @param key The integer key to hash.
+ * @param m   The table size (must be > 0).
+ * @return Hash index [0, m-1], or -1 if input is invalid.
+ */
 int myHashInt(int key, int m) {
-    // TODO: replace with your own design
-     if (m <= 0) {
-        return -1;   // invalid table size
-    }
-    int hash = key % m;
-    // ensure non-negative
-    if (hash < 0) {
-        hash += m;
-    }
-    return hash;
+    if (m <= 0) return -1; // invalid table size
+
+    const unsigned int prime = 2654435761U; // Knuth's multiplicative constant
+    unsigned int ukey = (unsigned int)key;  // treat as unsigned
+    unsigned int hash = (ukey * prime) % m;
+
+    return (int)hash;
 }
 
 /**
@@ -48,18 +49,18 @@ int myHashInt(int key, int m) {
  */
 
 int myHashString(const char* str, int m) {
-    unsigned long hash = 0;
     if (str == NULL || m <= 0) {
-        // invalid input
-        return -1;
+        return -1; /* invalid input */
     }
 
-    unsigned long hash = 0;
-    const unsigned long base = 31;   // simple multiplier
+    unsigned long hash = 5381UL;
+    const unsigned char *u = (const unsigned char *) str;
 
-    for (int i = 0; str[i] != '\0'; i++) {
-        hash = hash * base + (unsigned long)str[i];
+    while (*u) {
+        /* hash * 33 + c */
+        hash = ((hash << 5) + hash) + (unsigned long)(*u);
+        u++;
     }
 
-    return (int)(hash % m);
+    return (int)(hash % (unsigned long)m);
 }
